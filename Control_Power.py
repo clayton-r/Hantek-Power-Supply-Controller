@@ -94,8 +94,8 @@ time.sleep(.01)
 # else:
 #     print ('On Ch2(A): You are a dumbass')
 
-
 time.sleep(.01)
 
 ser.close()             # close port
+
 
