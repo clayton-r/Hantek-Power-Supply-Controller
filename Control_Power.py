@@ -1,11 +1,14 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import time
 import serial
 
-Ch1_Potential = 1000        #voltage in mV
-Ch1_Current = 1000          #amperage in mA
+Ch1_Potential = 8000        #voltage in mV
+Ch1_Current = 2000        #amperage in mA
 
 Ch2_Potential = 1000        #voltage in mV
-Ch2_Current = 1000          #amperage in mA
+Ch2_Current = 100         #amperage in mA
 
 Ch1VoltageCall = 'su'
 Ch1AmpereageCall = 'si'
@@ -21,51 +24,68 @@ Ch1AmperageSet = Ch1AmpereageCall + str(Ch1_Current) + str(Return)
 Ch2VoltageSet = Ch2VoltageCall + str(Ch2_Potential) + str(Return)
 Ch2AmperageSet = Ch2AmpereageCall + str(Ch2_Current) + str(Return)
 
-print '\r'
+print('\r')
 
-print ('Ch1 Voltage Set To: ' + str(Ch1_Potential) + ' mV')
-print ('Ch1 Amperage Set To: ' + str(Ch1_Current) + ' mV')
+print('Ch1 Voltage Set To: ' + str(Ch1_Potential) + ' mV')
+print('Ch1 Amperage Set To: ' + str(Ch1_Current) + ' mV')
 
-print ('Ch2 Voltage Set To: ' + str(Ch2_Potential) + ' mV')
-print ('Ch2 Amperage Set To: ' + str(Ch2_Current) + ' mV')
+print('Ch2 Voltage Set To: ' + str(Ch2_Potential) + ' mV')
+print('Ch2 Amperage Set To: ' + str(Ch2_Current) + ' mV')
 
-print '\r'
+print('\r')
 
 # configure the serial connections (the parameters differs on the device you are connecting to)
 ser = serial.Serial(
-    port='/dev/cu.SLAB_USBtoUART',
+    port='COM1',
     baudrate=9600,
 )
 
-print ('Port: ' + ser.name)       # check which port was really used
+print('the port acutally used is: Port: ' + ser.name)       # check which port was really used
 
-print '\r'
+print('\r')
 
-#give it some time between commands
+# give it some time between commands
 
 
-ser.write(bytes(Ch1VoltageSet))
-time.sleep(.01)
-ser.write(bytes(Ch1AmperageSet))
+ser.write(bytes(str(Ch1VoltageSet)))
 
-time.sleep(.01)
-
-ser.write(bytes(Ch2VoltageSet))
-time.sleep(.01)
-ser.write(bytes(Ch2AmperageSet))
+print('successful write volts')
 
 time.sleep(.01)
+ser.write(bytes(str(Ch1AmperageSet)))
 
-# ser.write(bytes('ru'))
-# time.sleep(.01)
-# ru = ser.readline()
-# if int(ru) == int(Ch1_Potential):
-#     print ('On Ch1(V): Confirmed ' + str(Ch1_Potential) + ' mV')
-# else:
-#     print ('On Ch1(V): You are a dumbass')
-#
-# time.sleep(.01)
-#
+print('successful write amps')
+
+time.sleep(.01)
+
+
+
+#ser.write(bytes(Ch2VoltageSet))
+#time.sleep(.01)
+#ser.write(bytes(Ch2AmperageSet))
+
+time.sleep(.01)
+
+ser.write(bytes('ru'))
+
+print('successful write command to read')
+
+exit()
+
+time.sleep(.01)
+
+ru = ser.readline()
+
+print('successful read')
+print(ru)
+
+if int(ru) == int(Ch1_Potential):
+    print ('On Ch1(V): Confirmed ' + str(Ch1_Potential) + ' mV')
+else:
+    print ('On Ch1(V): You are a dumbass')
+
+time.sleep(.01)
+
 # ser.write(bytes('ri'))
 # time.sleep(.01)
 # ri = ser.readline()
