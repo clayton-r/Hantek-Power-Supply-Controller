@@ -36,7 +36,7 @@ print('\r')
 
 # configure the serial connections (the parameters differs on the device you are connecting to)
 ser = serial.Serial(
-    port='COM1',
+    port='/dev/tty.SLAB_USBtoUART',
     baudrate=9600,
 )
 
@@ -47,12 +47,12 @@ print('\r')
 # give it some time between commands
 
 
-ser.write(bytes(str(Ch1VoltageSet)))
+ser.write(bytes(Ch1VoltageSet))
 
 print('successful write volts')
 
 time.sleep(.01)
-ser.write(bytes(str(Ch1AmperageSet)))
+ser.write(bytes(Ch1AmperageSet))
 
 print('successful write amps')
 
@@ -60,9 +60,9 @@ time.sleep(.01)
 
 
 
-#ser.write(bytes(Ch2VoltageSet))
-#time.sleep(.01)
-#ser.write(bytes(Ch2AmperageSet))
+ser.write(bytes(Ch2VoltageSet))
+time.sleep(.01)
+ser.write(bytes(Ch2AmperageSet))
 
 time.sleep(.01)
 
@@ -70,7 +70,6 @@ ser.write(bytes('ru'))
 
 print('successful write command to read')
 
-exit()
 
 time.sleep(.01)
 
@@ -78,6 +77,7 @@ ru = ser.readline()
 
 print('successful read')
 print(ru)
+
 
 if int(ru) == int(Ch1_Potential):
     print ('On Ch1(V): Confirmed ' + str(Ch1_Potential) + ' mV')
