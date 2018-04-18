@@ -61,7 +61,7 @@ def send_command(Channel, Potential, Current):
         exit()
 
     ser = serial.Serial(
-        port='/dev/tty.SLAB_USBtoUART',
+        port='COM3',
         baudrate=9600,
     )
 
